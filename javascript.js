@@ -32,3 +32,11 @@ let secondOperator = 0;
 let operation = "";
 
 operate(firstOperator, secondOperator, operation);
+
+let numberOnScreen = 0;
+
+const numScreen = document.querySelector(".screen");
+numScreen.textContent = numberOnScreen;
+
+numberOnScreen = 12;
+numScreen.textContent = numberOnScreen;
