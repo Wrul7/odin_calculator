@@ -52,10 +52,12 @@ clear.addEventListener("click", () => {
 
 changeSign.addEventListener("click", () => {
     numberOnScreen((Number(screen.textContent) * -1));
+    isEqualsPressed = false;
 });
 
 percent.addEventListener("click", () => {
     numberOnScreen((Number(screen.textContent) / 100));
+    isEqualsPressed = false;
 });
 
 let isEqualsPressed = false;
@@ -79,14 +81,17 @@ operators.forEach((operator) => {
             if (operationDone == false) {
                 alert("Error: Equals pressed before completing operation.");
             } else {
+                operation.push(Number(screen.textContent), operator.textContent);
                 let answer = operate(operation[0], operation[2], operation[1]);
                 operation.splice(0, operation.length, answer);
                 operationDone = true;
                 isEqualsPressed = true;
+                numberOnScreen(operation[0]);
+                operation.splice(0);
             }
         } else {
             if (operationDone) {
-                operation.push(Number(screen.textContent), operator.textContent)
+                operation.push(Number(screen.textContent), operator.textContent);
                 isEqualsPressed = true;
                 if (operation.length == 4) {
                     let answer = operate(operation[0], operation[2], operation[1]);
