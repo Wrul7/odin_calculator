@@ -74,28 +74,29 @@ buttons.forEach((button) => {
 
 operators.forEach((operator) => {
     operator.addEventListener("click", () => {
+        console.log(operationDone);
         if (operator.textContent == "=") {
             if (operationDone == false) {
                 alert("Error: Equals pressed before completing operation.");
             } else {
-                let answer = operate(operation[0], operation[3], operation[2]);
+                let answer = operate(operation[0], operation[2], operation[1]);
                 operation.splice(0, operation.length, answer);
                 operationDone = true;
                 isEqualsPressed = true;
             }
         } else {
             if (operationDone) {
+                operation.push(Number(screen.textContent), operator.textContent)
+                isEqualsPressed = true;
                 if (operation.length == 4) {
-                    let answer = operate(operation[0], operation[3], operation[2]);
+                    let answer = operate(operation[0], operation[2], operation[1]);
                     operation.splice(0, 3, answer);
                     numberOnScreen(operation[0]);
-                } else {
-                    operation.push(Number(screen.textContent), operator.textContent);
                 }
-                operationDone = false;
+                
             }
         }
-
+        console.log(operation);
     });
 });
 
