@@ -38,6 +38,30 @@ const buttons = document.querySelectorAll(".numbers .button");
 const operators = document.querySelectorAll(".operators .button")
 
 function numberOnScreen(number) {
+    // if (number.toString().includes(".")) {
+    //     if (number.split(".")[1].length == 1) {
+    //         number = number.toFixed(1).toString();
+    //     } else if (number.split(".")[1].length == 2) {
+    //         number = number.toFixed(2).toString();
+    //     }
+    // }
+    let checkIfDecimal = number.includes(".");
+
+    if (checkIfDecimal) {
+        let numSplitOld = number.split(".");
+        numSplit = numSplitOld.map(num => parseInt(num));
+        // console.log(numSplit);
+        // console.log(number);
+        // console.log(typeof number);
+        if (numSplit[1].length == 1) {
+            number = Number(number).toFixed(1);
+        } else if (numSplit[1].length == 2) {
+            number = Number(number).toFixed(2);
+        }
+    }
+
+    // console.log(number);
+    // console.log(typeof number);
     screen.textContent = number;
 }
 
@@ -51,12 +75,12 @@ clear.addEventListener("click", () => {
 });
 
 changeSign.addEventListener("click", () => {
-    numberOnScreen((Number(screen.textContent) * -1));
+    numberOnScreen((Number(screen.textContent) * -1).toString());
     isEqualsPressed = false;
 });
 
 percent.addEventListener("click", () => {
-    numberOnScreen((Number(screen.textContent) / 100));
+    numberOnScreen((Number(screen.textContent) / 100).toString());
     isEqualsPressed = false;
 });
 
@@ -82,11 +106,16 @@ operators.forEach((operator) => {
                 alert("Error: Equals pressed before completing operation.");
             } else {
                 operation.push(Number(screen.textContent), operator.textContent);
+                // console.log(operation);
                 let answer = operate(operation[0], operation[2], operation[1]);
+                // console.log(answer);
                 operation.splice(0, operation.length, answer);
+                // console.log(operation);
                 operationDone = true;
                 isEqualsPressed = true;
-                numberOnScreen(operation[0]);
+                // console.log(operation);
+                // console.log(typeof operation[0]);
+                numberOnScreen(operation[0].toString());
                 operation.splice(0);
             }
         } else {
@@ -96,7 +125,7 @@ operators.forEach((operator) => {
                 if (operation.length == 4) {
                     let answer = operate(operation[0], operation[2], operation[1]);
                     operation.splice(0, 3, answer);
-                    numberOnScreen(operation[0]);
+                    numberOnScreen(operation[0].toString());
                 }
                 
             }
