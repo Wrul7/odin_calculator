@@ -39,7 +39,35 @@ operate(operation[0], operation[3], operation[2]);
 let numberOnScreen = "0";
 
 const numScreen = document.querySelector(".screen");
+const clear = document.querySelector(".clear");
+const changeSign = document.querySelector(".change-sign");
+const percent = document.querySelector(".percent");
+const buttons = document.querySelectorAll(".numbers .button");
+const operators = document.querySelector(".operators .button")
+
 numScreen.textContent = numberOnScreen;
+
+clear.addEventListener("click", () => {
+    numberOnScreen = "0";
+    operation.splice(0);
+    operationDone = true;
+});
+
+changeSign.addEventListener("click", () => {
+    numberOnScreen = parseInt(numberOnScreen * -1);
+});
+
+percent.addEventListener("click", () => {
+    numberOnScreen = parseInt(numberOnScreen / 100);
+});
+
+// buttons.forEach((button) => {
+//     button.addEventListener("click", () => {
+//         if (numberOnScreen == "0") {
+
+//         }
+//     })
+// });
 
 
 /*
