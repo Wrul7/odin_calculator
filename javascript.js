@@ -27,47 +27,77 @@ function operate(firstOperand, secondOperand, operator) {
     }
 }
 
-// let firstOperand = 0;
-// let secondOperand = 0;
-let operator = ""; // event listener to operator buttons
-
 let operation = [];
 let operationDone = true;
 
-operate(operation[0], operation[3], operation[2]);
-
-let numberOnScreen = "0";
-
-const numScreen = document.querySelector(".screen");
+const screen = document.querySelector(".screen");
 const clear = document.querySelector(".clear");
 const changeSign = document.querySelector(".change-sign");
 const percent = document.querySelector(".percent");
 const buttons = document.querySelectorAll(".numbers .button");
-const operators = document.querySelector(".operators .button")
+const operators = document.querySelectorAll(".operators .button")
 
-numScreen.textContent = numberOnScreen;
+function numberOnScreen(number) {
+    screen.textContent = number;
+}
+
+numberOnScreen("0");
 
 clear.addEventListener("click", () => {
-    numberOnScreen = "0";
+    // alert("You pressed clear");
+    numberOnScreen("0");
     operation.splice(0);
     operationDone = true;
 });
 
 changeSign.addEventListener("click", () => {
-    numberOnScreen = parseInt(numberOnScreen * -1);
+    numberOnScreen((Number(screen.textContent) * -1));
 });
 
 percent.addEventListener("click", () => {
-    numberOnScreen = parseInt(numberOnScreen / 100);
+    numberOnScreen((Number(screen.textContent) / 100));
 });
 
-// buttons.forEach((button) => {
-//     button.addEventListener("click", () => {
-//         if (numberOnScreen == "0") {
+let isEqualsPressed = false;
 
-//         }
-//     })
-// });
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        // alert("You pressed " + button.textContent);
+        if ((screen.textContent == "0") || (isEqualsPressed)) {
+            numberOnScreen(button.textContent);
+            isEqualsPressed = false;
+        } else {
+            numberOnScreen(screen.textContent + button.textContent);
+        }
+    });
+});
+
+operators.forEach((operator) => {
+    operator.addEventListener("click", () => {
+        if (operator.textContent == "=") {
+            if (operationDone == false) {
+                alert("Error: Equals pressed before completing operation.");
+            } else {
+                let answer = operate(operation[0], operation[3], operation[2]);
+                operation.splice(0, operation.length, answer);
+                operationDone = true;
+                isEqualsPressed = true;
+            }
+        } else {
+            if (operationDone) {
+                if (operation.length == 4) {
+                    let answer = operate(operation[0], operation[3], operation[2]);
+                    operation.splice(0, 3, answer);
+                    numberOnScreen(operation[0]);
+                } else {
+                    operation.push(Number(screen.textContent), operator.textContent);
+                }
+                operationDone = false;
+            }
+        }
+
+    });
+});
 
 
 /*
@@ -88,7 +118,7 @@ Pseudocode
         a false boolean. If equals is pressed, change the isEqualsPressed to true. Also, change the second conditional to 
         isEqualsPressed == true, then change the isEqualsPressed = false after.
         
-        4.1.1.1. numberOnScreen = numbers' textContent
+            4.1.1.1. numberOnScreen = numbers' textContent
         4.1.2. Else
             4.1.2. Append numberOnScreen with the numbers' textContent
 5. If any operator is pressed:
@@ -101,7 +131,7 @@ Pseudocode
         5.3.4. numberOnScreen = operation[0]
         5.3.5. operationDone = false
     5.4. else:
-        5.4.1. push() parseInt(numberOnScreen) to operation 
+        5.4.1. push() Number(numberOnScreen) to operation 
         5.4.2. push operator to operation
         5.4.3. operationDone = false
 6. If equals pressed
@@ -113,4 +143,5 @@ Pseudocode
         6.2.2. splice operation [all], inserting operate's return
         6.2.3. numberOnScreen = operation[0]
         6.2.4. operationDone = true
+        6.2.5. isEqualPressed = true
 */
