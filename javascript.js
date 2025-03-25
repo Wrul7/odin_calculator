@@ -81,13 +81,23 @@ buttons.forEach((button) => {
     button.addEventListener("click", () => {
         // alert("You pressed " + button.textContent);
         operationButtonActive = false;
-        if ((screen.textContent == "0") || (isEqualsPressed)) {
-            numberOnScreen(button.textContent);
-            isEqualsPressed = false;
+        // if (!screen.textContent.split("").includes(".")) {
+        if (button.textContent == ".") {
+            if ((screen.textContent == "0") || (isEqualsPressed)) {
+                numberOnScreen(button.textContent);
+                isEqualsPressed = false;
+            } else if (!screen.textContent.split("").includes(".")) {
+                numberOnScreen(screen.textContent + button.textContent);
+            }
         } else {
-            numberOnScreen(screen.textContent + button.textContent);
+            if ((screen.textContent == "0") || (isEqualsPressed)) {
+                numberOnScreen(button.textContent);
+                isEqualsPressed = false;
+            } else {
+                numberOnScreen(screen.textContent + button.textContent);
+            }
+            
         }
-        
         if (operation.length == 2) {
             operationDone = true;
         } else {
@@ -144,6 +154,7 @@ Needed to fix:
 3. Pressing equals before completing an operation should have an alert message (fixed)
 4. Pressing consecutive operations should only take last operator (fixed)
 5. Pressing equals after completing an operation should do nothing (fixed)
+6. Do not allow typing of multiple decimal points.
 */
 
 
