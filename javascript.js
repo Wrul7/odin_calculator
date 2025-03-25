@@ -14,16 +14,28 @@ function divide(a, b) {
     return a / b;
 }
 
+function roundToHundredths(answer) {
+    if (answer.toString().includes(".")) {
+        if (answer.toString().split(".")[1].length == 1) {
+            return Number(answer.toFixed(1));
+        } else {
+            return Number(answer.toFixed(2));
+        } 
+    } else {
+        return answer;
+    }
+}
+
 function operate(firstOperand, secondOperand, operator) {
     switch (operator) {
         case "+":
-            return add(firstOperand, secondOperand);
+            return roundToHundredths(add(firstOperand, secondOperand));
         case "-":
-            return subtract(firstOperand, secondOperand);
+            return roundToHundredths(subtract(firstOperand, secondOperand));
         case "*":
-            return multiply(firstOperand, secondOperand);
+            return roundToHundredths(multiply(firstOperand, secondOperand));
         case "/":
-            return divide(firstOperand, secondOperand);
+            return roundToHundredths(divide(firstOperand, secondOperand));
     }
 }
 
@@ -38,30 +50,6 @@ const buttons = document.querySelectorAll(".numbers .button");
 const operators = document.querySelectorAll(".operators .button")
 
 function numberOnScreen(number) {
-    // if (number.toString().includes(".")) {
-    //     if (number.split(".")[1].length == 1) {
-    //         number = number.toFixed(1).toString();
-    //     } else if (number.split(".")[1].length == 2) {
-    //         number = number.toFixed(2).toString();
-    //     }
-    // }
-    let checkIfDecimal = number.includes(".");
-
-    if (checkIfDecimal) {
-        let numSplitOld = number.split(".");
-        numSplit = numSplitOld.map(num => parseInt(num));
-        // console.log(numSplit);
-        // console.log(number);
-        // console.log(typeof number);
-        if (numSplit[1].length == 1) {
-            number = Number(number).toFixed(1);
-        } else if (numSplit[1].length == 2) {
-            number = Number(number).toFixed(2);
-        }
-    }
-
-    // console.log(number);
-    // console.log(typeof number);
     screen.textContent = number;
 }
 
@@ -133,6 +121,12 @@ operators.forEach((operator) => {
         console.log(operation);
     });
 });
+
+/*
+Needed to fix:
+1. Decimal in operator event listener (fixed)
+2. Pressing equals before any operator results in a TypeError (130:45)
+*/
 
 
 /*
