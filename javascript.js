@@ -43,6 +43,7 @@ function operate(firstOperand, secondOperand, operator) {
 
 let operation = [];
 let operationDone = true;
+let operationButtonActive = false;
 
 const screen = document.querySelector(".screen");
 const clear = document.querySelector(".clear");
@@ -79,6 +80,7 @@ let isEqualsPressed = false;
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
         // alert("You pressed " + button.textContent);
+        operationButtonActive = false;
         if ((screen.textContent == "0") || (isEqualsPressed)) {
             numberOnScreen(button.textContent);
             isEqualsPressed = false;
@@ -100,8 +102,6 @@ operators.forEach((operator) => {
         if (operator.textContent == "=") {
             if (operationDone == false) {
                 alert("Error: Equals pressed before completing operation.");
-            // } if (operation.length <= 2) {
-            //     operation.pop();
             //     alert("Error: Equals pressed before completing operation.");
             } else {
                 operation.push(Number(screen.textContent));
@@ -118,14 +118,18 @@ operators.forEach((operator) => {
                 operation.splice(0);
             }
         } else {
-            // if (operationDone) {
+            if (!operationButtonActive) {
                 operation.push(Number(screen.textContent), operator.textContent);
                 isEqualsPressed = true;
+                operationButtonActive = true;
                 if (operation.length == 4) {
                     let answer = operate(operation[0], operation[2], operation[1]);
                     operation.splice(0, 3, answer);
                     numberOnScreen(operation[0].toString());
                 }
+            } else {
+                operation[1] = operator.textContent;
+            }
                 
             
         }
@@ -136,7 +140,9 @@ operators.forEach((operator) => {
 /*
 Needed to fix:
 1. Decimal in operator event listener (fixed)
-2. Pressing equals before any operator results in a TypeError (130:45)
+2. Pressing equals before any operator results in a TypeError (130:45) (fixed)
+3. Pressing equals before completing an operation should have an alert message (fixed)
+4. Pressing consecutive operations should only take last operator (fixed)
 */
 
 
