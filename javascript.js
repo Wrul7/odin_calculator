@@ -103,7 +103,7 @@ operators.forEach((operator) => {
             if (operationDone == false) {
                 alert("Error: Equals pressed before completing operation.");
             //     alert("Error: Equals pressed before completing operation.");
-            } else {
+            } else if (operation.length > 1) {
                 operation.push(Number(screen.textContent));
                 // console.log(operation);
                 let answer = operate(operation[0], operation[2], operation[1]);
@@ -116,7 +116,7 @@ operators.forEach((operator) => {
                 // console.log(typeof operation[0]);
                 numberOnScreen(operation[0].toString());
                 operation.splice(0);
-            }
+            } 
         } else {
             if (!operationButtonActive) {
                 operation.push(Number(screen.textContent), operator.textContent);
@@ -143,6 +143,7 @@ Needed to fix:
 2. Pressing equals before any operator results in a TypeError (130:45) (fixed)
 3. Pressing equals before completing an operation should have an alert message (fixed)
 4. Pressing consecutive operations should only take last operator (fixed)
+5. Pressing equals after completing an operation should do nothing (fixed)
 */
 
 
