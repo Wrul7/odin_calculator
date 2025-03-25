@@ -29,6 +29,13 @@ function roundToHundredths(answer) {
 function operate(firstOperand, secondOperand, operator) {
     operationDone = false;
 
+    if ((operator == "/") && (secondOperand == 0)) {
+        operation.splice(0);
+        operationDone = true;
+        alert("Please don't do that.");
+        return 0;
+    }
+
     switch (operator) {
         case "+":
             return roundToHundredths(add(firstOperand, secondOperand));
@@ -148,13 +155,14 @@ operators.forEach((operator) => {
 });
 
 /*
-Needed to fix:
+Needed to add/fix:
 1. Decimal in operator event listener (fixed)
 2. Pressing equals before any operator results in a TypeError (130:45) (fixed)
 3. Pressing equals before completing an operation should have an alert message (fixed)
 4. Pressing consecutive operations should only take last operator (fixed)
 5. Pressing equals after completing an operation should do nothing (fixed)
-6. Do not allow typing of multiple decimal points.
+6. Do not allow typing of multiple decimal points. (Fixed)
+7. Dividing by 0 displays an error message (Fixed)
 */
 
 
