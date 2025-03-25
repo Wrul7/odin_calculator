@@ -27,6 +27,8 @@ function roundToHundredths(answer) {
 }
 
 function operate(firstOperand, secondOperand, operator) {
+    operationDone = false;
+
     switch (operator) {
         case "+":
             return roundToHundredths(add(firstOperand, secondOperand));
@@ -83,17 +85,26 @@ buttons.forEach((button) => {
         } else {
             numberOnScreen(screen.textContent + button.textContent);
         }
+        
+        if (operation.length == 2) {
+            operationDone = true;
+        } else {
+            operationDone = false;
+        }
     });
 });
 
 operators.forEach((operator) => {
     operator.addEventListener("click", () => {
-        console.log(operationDone);
+        // console.log(operationDone);
         if (operator.textContent == "=") {
             if (operationDone == false) {
                 alert("Error: Equals pressed before completing operation.");
+            // } if (operation.length <= 2) {
+            //     operation.pop();
+            //     alert("Error: Equals pressed before completing operation.");
             } else {
-                operation.push(Number(screen.textContent), operator.textContent);
+                operation.push(Number(screen.textContent));
                 // console.log(operation);
                 let answer = operate(operation[0], operation[2], operation[1]);
                 // console.log(answer);
@@ -107,7 +118,7 @@ operators.forEach((operator) => {
                 operation.splice(0);
             }
         } else {
-            if (operationDone) {
+            // if (operationDone) {
                 operation.push(Number(screen.textContent), operator.textContent);
                 isEqualsPressed = true;
                 if (operation.length == 4) {
@@ -116,7 +127,7 @@ operators.forEach((operator) => {
                     numberOnScreen(operation[0].toString());
                 }
                 
-            }
+            
         }
         console.log(operation);
     });
